@@ -12,6 +12,7 @@ class AddressController extends GetxController {
   var address = "".obs;
   var latitude = 0.0.obs;
   var longitude = 0.0.obs;
+  LatLng? latLng1;
   bool showCustomMarkers = false;
 
   Future<void> getAddressInfo() async {
@@ -23,18 +24,18 @@ class AddressController extends GetxController {
     address.value = model.address;
     latitude.value = model.latitude;
     longitude.value = model.longitude;
-    LatLng latLng1 = LatLng(latitude.value, longitude.value);
+    latLng1 = LatLng(latitude.value, longitude.value);
     mapController.markers.add(
       AnimatedMarker(
-          point: latLng1,
-          builder: (_, __) => lottie.Lottie.asset(
-            'lib/asseets/60.json',
-            width: 800,
-            height: 800,
-          ),
+        point: latLng1!,
+        builder: (_, __) => lottie.Lottie.asset(
+          'lib/asseets/60.json',
+          width: 800,
+          height: 800,
         ),
+      ),
     );
-    
+
     print("Markers Count: ${mapController.markers.length}");
     print("Stored");
     update();

@@ -50,6 +50,7 @@ class Map_Controller extends GetxController{
       double.parse(latController1.text),
       double.parse(longController1.text),
     );
+    print("firstMarker");
     markers.add(
        AnimatedMarker(
           point: firstMarker!,

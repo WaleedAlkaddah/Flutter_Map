@@ -20,7 +20,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   final AddressController addressController = Get.find<AddressController>();
   late final _mapController = AnimatedMapController(
     vsync: this,
-    duration: const Duration(seconds: 60),
+    duration: const Duration(seconds: 10),
   );
 
   Widget TypeButtons(String url, String name) {
@@ -78,9 +78,12 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
               GetBuilder<Map_Controller>(builder: (controller) {
                 return ElevatedButton(
                   onPressed: () {
-                    setState(() {
-                      // controller.setCoordinate1();
-                    });
+                    controller.setCoordinate1();
+                    _mapController.animateTo(
+                        dest: controller.firstMarker,
+                        zoom: 15.0,
+                        rotation: 15.0,
+                        curve: Curves.easeIn);
                   },
                   child: const Text('Set Coordinate 1'),
                 );
@@ -95,9 +98,12 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
               GetBuilder<Map_Controller>(builder: (controller) {
                 return ElevatedButton(
                   onPressed: () {
-                    setState(() {
-                      //  controller.setCoordinate2();
-                    });
+                    controller.setCoordinate2();
+                    _mapController.animateTo(
+                        dest: controller.secondMarker,
+                        zoom: 15.0,
+                        rotation: 15.0,
+                        curve: Curves.easeIn);
                   },
                   child: const Text('Set Coordinate 2'),
                 );
@@ -119,7 +125,6 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                   decoration: const InputDecoration(labelText: 'Enter Address'),
                 ),
               ),
-             
               GetBuilder<AddressController>(builder: (controller) {
                 return ElevatedButton(
                   onPressed: () async {
@@ -127,6 +132,11 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                     setState(() {
                       addressController.showCustomMarkers = true;
                     });
+                    _mapController.animateTo(
+                        dest: addressController.latLng1,
+                        zoom: 15.0,
+                        rotation: 15.0,
+                        curve: Curves.easeIn);
                   },
                   child: const Text('Serach'),
                 );
@@ -149,7 +159,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                                 dest: point,
                                 zoom: 15.0,
                                 rotation: 15.0,
-                                curve: Curves.easeInOut);
+                                curve: Curves.easeIn);
                             print(" _mapController.animateTo");
                           }),
                       children: [
@@ -164,14 +174,15 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                                     point: LatLng(
                                         addressController.latitude.value,
                                         addressController.longitude.value),
-                                    builder: (_, __) => Icon(Icons.location_on),
+                                    builder: (_, __) => lottie.Lottie.asset(
+                                      'lib/asseets/60.json',
+                                      width: 800,
+                                      height: 800,
+                                    ),
                                   ),
                                 ]
                               : controller1.markers,
                         ),
-
-                      
-
                         PolylineLayer(
                           polylines: [
                             if (controller1.firstMarker != null &&
@@ -183,7 +194,6 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                           ],
                         ),
                       ],
-                      
                     );
                   },
                 ),
