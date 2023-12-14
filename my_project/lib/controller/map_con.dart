@@ -1,24 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:get/get.dart';
+import 'package:flutter_map/flutter_map.dart' as flutter_map;
+import 'package:lottie/lottie.dart' as lottie;
+import 'package:my_project/controller/search_con.dart';
+import 'package:flutter_map_animations/flutter_map_animations.dart';
 
-class MapController extends GetxController {
-  List<Marker> markers = [];
+class Map_Controller extends GetxController{
+  List<AnimatedMarker> markers = [];
   LatLng? firstMarker;
   LatLng? secondMarker;
+  String defultmap = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+  String satellite_map = "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}";
+  String terrain_map = 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png';
+  final TextEditingController latController1 = TextEditingController();
+  final TextEditingController longController1 = TextEditingController();
+  final TextEditingController latController2 = TextEditingController();
+  final TextEditingController longController2 = TextEditingController();
+
 
   void handleTap(tapPosition, LatLng latLng1) {
     if (markers.length < 2) {
       markers.add(
-        Marker(
-          width: 20,
-          height: 20,
+        AnimatedMarker(
           point: latLng1,
-          builder: (ctx) => const Icon(
-            Icons.gps_not_fixed_sharp,
-            color: Colors.green,
-            size: 30.0,
+          builder: (_, __) => lottie.Lottie.asset(
+            'lib/asseets/60.json',
+            width: 800,
+            height: 800,
           ),
         ),
       );
@@ -31,12 +40,60 @@ class MapController extends GetxController {
         print("secondMarker $secondMarker");
       }
     }
+    print("Markers Count In Map Controller : ${markers.length}");
+    update();
+  }
+
+
+  setCoordinate1() {
+    firstMarker = LatLng(
+      double.parse(latController1.text),
+      double.parse(longController1.text),
+    );
+    markers.add(
+       AnimatedMarker(
+          point: firstMarker!,
+          builder: (_, __) => lottie.Lottie.asset(
+            'lib/asseets/60.json',
+            width: 800,
+            height: 800,
+          ),
+        ),
+
+    );
+    print("firstMarker $firstMarker");
+    update();
+  }
+
+  setCoordinate2() {
+    secondMarker = LatLng(
+      double.parse(latController2.text),
+      double.parse(longController2.text),
+    );
+    markers.add(
+      AnimatedMarker(
+          point: secondMarker!,
+          builder: (_, __) => lottie.Lottie.asset(
+            'lib/asseets/60.json',
+            width: 800,
+            height: 800,
+          ),
+        ),
+    );
+    print("secondMarker $secondMarker");
     update();
   }
 
   void clearMarkers() {
     markers.clear();
+    firstMarker = null;
+    secondMarker = null;
     print("Cleared");
+    update();
+  }
+
+  void updateMap(String mapStyle) {
+    defultmap = mapStyle;
     update();
   }
 

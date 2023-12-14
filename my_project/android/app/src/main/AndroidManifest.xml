@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.my_project">
+
+    
+
    <application
         android:label="my_project"
         android:name="${applicationName}"
@@ -31,4 +34,5 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+    
 </manifest>
