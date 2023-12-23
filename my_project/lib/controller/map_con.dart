@@ -1,35 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:get/get.dart';
-import 'package:flutter_map/flutter_map.dart' as flutter_map;
 import 'package:lottie/lottie.dart' as lottie;
-import 'package:my_project/controller/search_con.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
+import '../waleed_widget/animated_marker.dart';
 
-class Map_Controller extends GetxController{
+class Map_Controller extends GetxController {
   List<AnimatedMarker> markers = [];
   LatLng? firstMarker;
   LatLng? secondMarker;
-  String defultmap = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-  String satellite_map = "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}";
-  String terrain_map = 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png';
+  LatLng? setMarker;
+  String defultmap = "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png";
+  String satelliteMap = "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}";
+  String terrainMap = 'https://a.tile.opentopomap.org/{z}/{x}/{y}.png';
   final TextEditingController latController1 = TextEditingController();
   final TextEditingController longController1 = TextEditingController();
   final TextEditingController latController2 = TextEditingController();
   final TextEditingController longController2 = TextEditingController();
-
+  AnimatedMark animatedMarker = AnimatedMark();
 
   void handleTap(tapPosition, LatLng latLng1) {
     if (markers.length < 2) {
       markers.add(
-        AnimatedMarker(
-          point: latLng1,
-          builder: (_, __) => lottie.Lottie.asset(
-            'lib/asseets/60.json',
-            width: 800,
-            height: 800,
-          ),
-        ),
+        animatedMarker.buildAnimatedMarker(latLng1, 'lib/asseets/60.json'),
       );
 
       if (firstMarker == null) {
@@ -44,44 +37,30 @@ class Map_Controller extends GetxController{
     update();
   }
 
+  setCoordinate() {
+    if (latController2.text.isNotEmpty && latController2.text.isNotEmpty) {
+      secondMarker = LatLng(
+        double.parse(latController2.text),
+        double.parse(longController2.text),
+      );
+      markers.add(
+        animatedMarker.buildAnimatedMarker(
+            secondMarker!, 'lib/asseets/60.json'),
+      );
+    } else if (latController1.text.isNotEmpty &&
+        latController1.text.isNotEmpty) {
+      firstMarker = LatLng(
+        double.parse(latController1.text),
+        double.parse(longController1.text),
+      );
+      markers.add(
+        animatedMarker.buildAnimatedMarker(firstMarker!, 'lib/asseets/60.json'),
+      );
+    } else {
+      print("Invalid input for latitude or longitude");
+    }
 
-  setCoordinate1() {
-    firstMarker = LatLng(
-      double.parse(latController1.text),
-      double.parse(longController1.text),
-    );
-    print("firstMarker");
-    markers.add(
-       AnimatedMarker(
-          point: firstMarker!,
-          builder: (_, __) => lottie.Lottie.asset(
-            'lib/asseets/60.json',
-            width: 800,
-            height: 800,
-          ),
-        ),
-
-    );
-    print("firstMarker $firstMarker");
-    update();
-  }
-
-  setCoordinate2() {
-    secondMarker = LatLng(
-      double.parse(latController2.text),
-      double.parse(longController2.text),
-    );
-    markers.add(
-      AnimatedMarker(
-          point: secondMarker!,
-          builder: (_, __) => lottie.Lottie.asset(
-            'lib/asseets/60.json',
-            width: 800,
-            height: 800,
-          ),
-        ),
-    );
-    print("secondMarker $secondMarker");
+    print("firstMarker : $firstMarker , secondMarker :  $secondMarker");
     update();
   }
 

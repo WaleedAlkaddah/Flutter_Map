@@ -5,6 +5,7 @@ import 'package:my_project/controller/map_con.dart';
 import '../model/serach_mod.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart' as lottie;
+import '../waleed_widget/animated_marker.dart';
 
 class AddressController extends GetxController {
   var TextaddressController = TextEditingController();
@@ -14,9 +15,9 @@ class AddressController extends GetxController {
   var longitude = 0.0.obs;
   LatLng? latLng1;
   bool showCustomMarkers = false;
+  AnimatedMark animatedmarker = AnimatedMark();
 
   Future<void> getAddressInfo() async {
-    dynamic tapPosition;
     var model = AddressModel(address: "", latitude: 0.0, longitude: 0.0);
     print("Address :");
     print(TextaddressController.text);
@@ -26,16 +27,8 @@ class AddressController extends GetxController {
     longitude.value = model.longitude;
     latLng1 = LatLng(latitude.value, longitude.value);
     mapController.markers.add(
-      AnimatedMarker(
-        point: latLng1!,
-        builder: (_, __) => lottie.Lottie.asset(
-          'lib/asseets/60.json',
-          width: 800,
-          height: 800,
-        ),
-      ),
+      animatedmarker.buildAnimatedMarker(latLng1!, 'lib/asseets/60.json'),
     );
-
     print("Markers Count: ${mapController.markers.length}");
     print("Stored");
     update();
