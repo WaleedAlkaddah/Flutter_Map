@@ -5,19 +5,18 @@ import '../controller/map_con.dart';
 class ElevatedBtn extends StatelessWidget {
   final String url;
   final String name;
-  final Map_Controller controller;
-
+  final VoidCallback onPressedCall;
   const ElevatedBtn({
     super.key,
     required this.url,
     required this.name,
-    required this.controller,
+    required this.onPressedCall,
   });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () => controller.updateMap(url),
+      onPressed: onPressedCall,
       child: Text(name),
     );
   }

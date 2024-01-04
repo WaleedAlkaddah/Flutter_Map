@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_project/binding/map_bind.dart';
+import 'package:my_project/view/first_view.dart';
 import 'package:my_project/view/map_view.dart';
 
 void main() {
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       getPages: [
-        GetPage(name: "/", page: () => MapScreen(), binding: MapBinding())
+        GetPage(name: "/", page: () => const FirstView())
       ],
       debugShowCheckedModeBanner: false,
     );

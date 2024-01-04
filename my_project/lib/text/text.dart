@@ -12,4 +12,13 @@ class TextView {
   static const String terrainMap = 'Terrain Map';
   static const String enterAddress = 'Enter Address';
   static const String search = 'Search';
+  static const String first = 'First';
+  static const String map = 'Map';
+  static const String file = 'File';
+  static const String files = 'Files';
+  static const String readFile = 'Read file';
+  static const String read = 'Read';
+  static const String write = 'Write';
+  static const String nameFile = "Name file";
+  static const String enterContent = "Enter content";
 }

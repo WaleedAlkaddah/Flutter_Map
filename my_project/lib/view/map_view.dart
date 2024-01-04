@@ -26,6 +26,27 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     duration: const Duration(seconds: 10),
   );
 
+  void onPressedSearch() async {
+    await addressController.getAddressInfo();
+    setState(() {
+      addressController.showCustomMarkers = true;
+    });
+    _mapController.animateTo(
+        dest: addressController.latLng1,
+        zoom: 15.0,
+        rotation: 15.0,
+        curve: Curves.easeIn);
+  }
+
+  void onPressedCoordinate() {
+    controller.setCoordinate();
+    _mapController.animateTo(
+        dest: controller.firstMarker,
+        zoom: 15.0,
+        rotation: 15.0,
+        curve: Curves.easeIn);
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<Map_Controller>(
@@ -62,17 +83,10 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                         text: TextView.longitude1),
                   ],
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    controller.setCoordinate();
-                    _mapController.animateTo(
-                        dest: controller.firstMarker,
-                        zoom: 15.0,
-                        rotation: 15.0,
-                        curve: Curves.easeIn);
-                  },
-                  child: const Text(TextView.setCoordinate1),
-                ),
+                ElevatedBtn(
+                    url: "",
+                    name: TextView.setCoordinate1,
+                    onPressedCall: onPressedCoordinate),
                 Row(
                   children: [
                     TextFild(
@@ -84,52 +98,41 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                         text: TextView.longitude2),
                   ],
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    controller.setCoordinate();
-                    _mapController.animateTo(
-                        dest: controller.secondMarker,
-                        zoom: 15.0,
-                        rotation: 15.0,
-                        curve: Curves.easeIn);
-                  },
-                  child: const Text(TextView.setCoordinate2),
-                ),
+                ElevatedBtn(
+                    url: "",
+                    name: TextView.setCoordinate1,
+                    onPressedCall: onPressedCoordinate),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     ElevatedBtn(
-                        url: controller.defultmap,
-                        name: TextView.defaultMap,
-                        controller: controller),
+                      url: controller.defultmap,
+                      name: TextView.defaultMap,
+                      onPressedCall: () =>
+                          controller.updateMap(controller.defultmap),
+                    ),
                     ElevatedBtn(
-                        url: controller.satelliteMap,
-                        name: TextView.satelliteMap,
-                        controller: controller),
+                      url: controller.satelliteMap,
+                      name: TextView.satelliteMap,
+                      onPressedCall: () =>
+                          controller.updateMap(controller.satelliteMap),
+                    ),
                     ElevatedBtn(
-                        url: controller.terrainMap,
-                        name: TextView.terrainMap,
-                        controller: controller),
+                      url: controller.terrainMap,
+                      name: TextView.terrainMap,
+                      onPressedCall: () =>
+                          controller.updateMap(controller.terrainMap),
+                    ),
                   ],
                 ),
                 TextFild(
                     controller: addressController.TextaddressController,
                     text: TextView.enterAddress),
                 GetBuilder<AddressController>(builder: (controller) {
-                  return ElevatedButton(
-                    onPressed: () async {
-                      await controller.getAddressInfo();
-                      setState(() {
-                        addressController.showCustomMarkers = true;
-                      });
-                      _mapController.animateTo(
-                          dest: addressController.latLng1,
-                          zoom: 15.0,
-                          rotation: 15.0,
-                          curve: Curves.easeIn);
-                    },
-                    child: const Text(TextView.search),
-                  );
+                  return ElevatedBtn(
+                      url: "",
+                      name: TextView.search,
+                      onPressedCall: onPressedSearch);
                 }),
                 const SizedBox(height: 10),
                 SizedBox(

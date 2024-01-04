@@ -72,7 +72,7 @@ class Map_Controller extends GetxController {
     update();
   }
 
-  void updateMap(String mapStyle) {
+   updateMap(String mapStyle) {
     defultmap = mapStyle;
     update();
   }
