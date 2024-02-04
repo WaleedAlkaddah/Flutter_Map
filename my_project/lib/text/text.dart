@@ -21,4 +21,5 @@ class TextView {
   static const String write = 'Write';
   static const String nameFile = "Name file";
   static const String enterContent = "Enter content";
+  static const String execlFile = "Execl File";
 }

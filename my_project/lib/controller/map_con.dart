@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart' as lottie;
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 import '../waleed_widget/animated_marker.dart';
 
@@ -17,12 +16,11 @@ class Map_Controller extends GetxController {
   final TextEditingController longController1 = TextEditingController();
   final TextEditingController latController2 = TextEditingController();
   final TextEditingController longController2 = TextEditingController();
-  AnimatedMark animatedMarker = AnimatedMark();
 
   void handleTap(tapPosition, LatLng latLng1) {
     if (markers.length < 2) {
       markers.add(
-        animatedMarker.buildAnimatedMarker(latLng1, 'lib/asseets/60.json'),
+        AnimatedMark.buildAnimatedMarker(latLng1, 'lib/asseets/60.json'),
       );
 
       if (firstMarker == null) {
@@ -44,7 +42,7 @@ class Map_Controller extends GetxController {
         double.parse(longController2.text),
       );
       markers.add(
-        animatedMarker.buildAnimatedMarker(
+        AnimatedMark.buildAnimatedMarker(
             secondMarker!, 'lib/asseets/60.json'),
       );
     } else if (latController1.text.isNotEmpty &&
@@ -54,7 +52,7 @@ class Map_Controller extends GetxController {
         double.parse(longController1.text),
       );
       markers.add(
-        animatedMarker.buildAnimatedMarker(firstMarker!, 'lib/asseets/60.json'),
+        AnimatedMark.buildAnimatedMarker(firstMarker!, 'lib/asseets/60.json'),
       );
     } else {
       print("Invalid input for latitude or longitude");

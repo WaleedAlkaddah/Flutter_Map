@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart' as lottie;
 import '../controller/map_con.dart';
 import '../controller/search_con.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
@@ -20,7 +19,6 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   final Map_Controller controller = Get.find<Map_Controller>();
   final AddressController addressController = Get.find<AddressController>();
-  AnimatedMark animatedMarker = AnimatedMark();
   late final _mapController = AnimatedMapController(
     vsync: this,
     duration: const Duration(seconds: 10),
@@ -74,11 +72,11 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
               children: [
                 Row(
                   children: [
-                    TextFild(
+                    TextFieldModified(
                         controller: controller.latController1,
                         text: TextView.latitude1),
                     const SizedBox(width: 10),
-                    TextFild(
+                    TextFieldModified(
                         controller: controller.longController1,
                         text: TextView.longitude1),
                   ],
@@ -89,11 +87,11 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                     onPressedCall: onPressedCoordinate),
                 Row(
                   children: [
-                    TextFild(
+                    TextFieldModified(
                         controller: controller.latController2,
                         text: TextView.latitude2),
                     const SizedBox(width: 10),
-                    TextFild(
+                    TextFieldModified(
                         controller: controller.longController2,
                         text: TextView.longitude2),
                   ],
@@ -125,8 +123,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                     ),
                   ],
                 ),
-                TextFild(
-                    controller: addressController.TextaddressController,
+                TextFieldModified(
+                    controller: addressController.textAddressController,
                     text: TextView.enterAddress),
                 GetBuilder<AddressController>(builder: (controller) {
                   return ElevatedBtn(
@@ -138,7 +136,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                 SizedBox(
                   height: 500,
                   child: FlutterMap(
-                    mapController: _mapController,
+                    mapController: _mapController.mapController,
                     options: MapOptions(
                         center: LatLng(0, 0),
                         zoom: 2.0,
@@ -157,7 +155,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                       AnimatedMarkerLayer(
                         markers: addressController.showCustomMarkers
                             ? [
-                                animatedMarker.buildAnimatedMarker(
+                                AnimatedMark.buildAnimatedMarker(
                                     LatLng(addressController.latitude.value,
                                         addressController.longitude.value),
                                     'lib/asseets/60.json'),
